@@ -1,0 +1,23 @@
+#summary Download all apk files
+#labels adb
+
+= Download all apk files =
+
+For downloading all APK files, you can use the following Linux script.
+
+{{{
+#!/bin/bash
+#set -x
+adb shell "su -c 'find / -iname "*.apk" >/data/local/tmp/apk.txt'"
+adb pull /data/local/tmp/apk.txt .
+cat apk.txt | while read FILE_APK
+do 
+    adb pull ${FILE_APK} .${FILE_APK}
+done
+
+exit 0
+}}}
+
+== Note ==
+
+The Android device must to be rooted.
