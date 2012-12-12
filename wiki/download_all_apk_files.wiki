@@ -1,5 +1,5 @@
 #summary Download all apk files
-#labels adb
+#labels adb,Featured
 
 = Download all apk files =
 
