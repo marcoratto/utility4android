@@ -1,0 +1,25 @@
+#summary Download all sqlite files
+#labels Featured,adb,Android
+
+= Download all sqlite files =
+
+For downloading all sqlite files, you can use the following Linux script.
+
+{{{
+#!/bin/bash
+#set -x
+
+adb shell "su -c 'find / -iname "*.db" -exec chmod 666 "{}" \;'"
+adb shell "su -c 'find / -iname "*.db" >/data/local/tmp/sqlite3.txt'"
+adb pull /data/local/tmp/sqlite3.txt .
+cat sqlite3.txt | while read FILE_SQLITE
+do 
+    adb pull ${FILE_SQLITE} .${FILE_SQLITE}
+done
+
+exit 0
+}}}
+
+== Note ==
+
+The Android device must to be rooted.
