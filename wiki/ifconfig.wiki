@@ -1,0 +1,18 @@
+#summary ifconfig
+#labels Featured,adb,shell,rooted
+
+= Introduction =
+
+List of some command line tool for seeing all interfaces defined on your Android device.
+
+{{{
+su -c "/system/xbin/ifconfig -a"
+}}}
+
+{{{
+su -c "busybox ifconfig -a"
+}}}
+
+{{{
+su -c "netcfg"
+}}}
