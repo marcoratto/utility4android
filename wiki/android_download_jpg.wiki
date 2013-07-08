@@ -10,7 +10,7 @@ adb shell "su -c 'find /mnt/sdcard/DCIM/Camera -iname "*.jpg" -exec md5sum -b "{
 
 echo "Download the list.Wait!"
 adb pull /data/local/tmp/jpg.txt .
-cat apk.txt | while read BUFFER
+cat jpg.txt | while read BUFFER
 do 
     FILE_HASH=`echo "$BUFFER" | awk '{ FS=" " ; print $1 }'`
     FILE_JPEG=`echo "$BUFFER" | awk '{ FS=" " ; print $2 }'`
