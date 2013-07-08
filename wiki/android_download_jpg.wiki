@@ -2,6 +2,7 @@
 = Download All JPEG files =
 
 {{{
+
 #!/bin/bash
 #set -x
 
@@ -24,9 +25,9 @@ then
 fi
 cat jpg.txt | while read BUFFER
 do 
-    FILE_HASH=`echo "$BUFFER" | awk '{ FS=" " ; print $1 }'`
-    FILE_JPEG=`echo "$BUFFER" | awk '{ FS=" " ; print $2 }'`
-    LOCAL_FILE_JPEG=.${FILE_JPEG}
+    FILE_HASH=`echo "$BUFFER" | cut -c 1-32`
+    FILE_JPEG=`echo "$BUFFER" | cut -c 35-`
+    LOCAL_FILE_JPEG=`basename "${FILE_JPEG}"`
     LOCAL_FILE_HASH=
     if [ -f "${LOCAL_FILE_JPEG}" ]
     then
@@ -34,7 +35,7 @@ do
     fi 
     if [ "${LOCAL_FILE_HASH}" != "${FILE_HASH}" ]
     then
-        echo "Download the new APK file '${FILE_JPEG}'. Wait!"
+        echo "Download the new JPEG file '${FILE_JPEG}'. Wait!"
         adb pull "${FILE_JPEG}" "${LOCAL_FILE_JPEG}"
         RET_CODE=$?
         if [ $RET_CODE -ne 0 ]
