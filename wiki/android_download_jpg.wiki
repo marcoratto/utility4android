@@ -7,9 +7,21 @@
 
 echo "I'm calculating hash MD5 on all JPEG files on the Android device.Wait!"
 adb shell "su -c 'find /mnt/sdcard/DCIM/Camera -iname "*.jpg" -exec md5sum -b "{}" \; >/data/local/tmp/jpg.txt'"
+RET_CODE=$?
+if [ $RET_CODE -ne 0 ]
+then
+    echo "ERROR $RET_CODE: adb return an error! Stopped."
+    exit 1
+fi
 
 echo "Download the list.Wait!"
 adb pull /data/local/tmp/jpg.txt .
+RET_CODE=$?
+if [ $RET_CODE -ne 0 ]
+then
+    echo "ERROR $RET_CODE: adb return an error! Stopped."
+    exit 1
+fi
 cat jpg.txt | while read BUFFER
 do 
     FILE_HASH=`echo "$BUFFER" | awk '{ FS=" " ; print $1 }'`
@@ -24,6 +36,12 @@ do
     then
         echo "Download the new APK file '${FILE_JPEG}'. Wait!"
         adb pull "${FILE_JPEG}" "${LOCAL_FILE_JPEG}"
+        RET_CODE=$?
+        if [ $RET_CODE -ne 0 ]
+        then
+            echo "ERROR $RET_CODE: adb return an error! Stopped."
+            exit 1
+        fi
     else
         echo "JPEG file '${FILE_JPEG}' is the same! Skipped."
     fi
@@ -31,4 +49,5 @@ done
 
 echo "Finished."
 exit 0
+
 }}}
